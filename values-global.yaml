@@ -2,7 +2,7 @@
 global:
   pattern: vault
   secretStore:
-    backend: none
+    backend: vault
 
   options:
     useCSV: true
