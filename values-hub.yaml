@@ -14,7 +14,8 @@ clusterGroup:
   subscriptions: {}
 
   applications:
-    name: vault
+    vault:
+      name: vault
       namespace: vault
       project: hub
       path: common/hashicorp-vault
