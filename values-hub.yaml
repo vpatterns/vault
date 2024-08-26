@@ -1,0 +1,25 @@
+#file name depends clusterGroupName in values-global.yaml
+#
+clusterGroup:
+  name: hub
+  isHubCluster: true
+
+  projects:       
+  - hub  
+  
+  namespaces:
+    - vault
+    - golang-external-secrets
+
+  subscriptions: {}
+
+  applications:
+    name: vault
+    namespace: vault
+    project: hub
+    path: common/hashicorp-vault
+  golang-external-secrets:
+    name: golang-external-secrets
+    namespace: golang-external-secrets
+    project: hub
+    path: common/golang-external-secrets

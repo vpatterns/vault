@@ -1,0 +1,13 @@
+---
+global:
+  pattern: blank
+  secretStore:
+    backend: none
+
+  options:
+    useCSV: true
+    syncPolicy: Automatic
+    installPlanApproval: Automatic
+
+main:
+  clusterGroupName: hub

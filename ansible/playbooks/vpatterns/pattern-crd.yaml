@@ -1,0 +1,17 @@
+---
+apiVersion: gitops.hybrid-cloud-patterns.io/v1alpha1
+kind: Pattern
+metadata:
+  name: mgmt-vpatterns
+  namespace: openshift-operators
+spec:
+  clusterGroupName: hub
+  gitSpec:
+    targetRepo: ""
+    targetRevision: gmbros
+  gitOpsSpec:
+    operatorChannel: gitops-1.11
+    operatorSource: redhat-operators
+  multiSourceConfig:
+    enabled: false
+    clusterGroupChartGitRevision: gmbros

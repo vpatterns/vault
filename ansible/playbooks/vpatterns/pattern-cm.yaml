@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: patterns-operator-config
+  namespace: openshift-operators
+data:
+  gitops.catalogSource: redhat-operators
+  gitops.channel: gitops-1.10

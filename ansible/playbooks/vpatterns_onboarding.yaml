@@ -1,0 +1,59 @@
+---
+- name: Playbook to onboard Validated Patterns
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+    - name: user
+      prompt: Type your GitHub user, where the forked hub-blank-vpattern repository is located. Default is
+      private: false
+      default: "jtovarro"
+
+    - name: kubeconfig
+      prompt: Type path to kubeconfig
+      private: false
+
+  tasks:
+    - name: Create namespaces
+      kubernetes.core.k8s:
+        name: "{{ item }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+        kubeconfig: "{{ kubeconfig }}"
+      loop:
+        - mgmt-vpatterns-hub
+        - openshift-gitops
+
+    - name: Create a resource by reading the definition from ConfigMap
+      kubernetes.core.k8s:
+        state: present
+        src: vpatterns/pattern-cm.yaml
+        kubeconfig: "{{ kubeconfig }}"
+
+    - name: Create a resource by reading the definition from Subscription
+      kubernetes.core.k8s:
+        state: present
+        src: vpatterns/pattern-subscription.yaml
+        kubeconfig: "{{ kubeconfig }}"
+
+    - name: Wait for VPatterns to be installed
+      ansible.builtin.shell: "oc get csv patterns-operator.v0.0.52 -o=jsonpath='{.status.phase}' -n openshift-operators --kubeconfig={{ kubeconfig }}"
+      register: pattern_status
+      until: pattern_status.stdout == "Succeeded"
+      retries: 150
+      delay: 5
+      changed_when: False
+
+    - name: Set targetRepo for cluster location
+      ansible.builtin.lineinfile:
+        path: vpatterns/pattern-crd.yaml
+        regexp: 'targetRepo'
+        line: "    targetRepo: https://github.com/{{ user }}/hub-blank-vpattern.git"
+
+    - name: Create a resource by reading the definition from Pattern CRD
+      kubernetes.core.k8s:
+        state: present
+        src: "vpatterns/pattern-crd.yaml"
+        kubeconfig: "{{ kubeconfig }}"
