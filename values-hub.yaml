@@ -15,11 +15,12 @@ clusterGroup:
 
   applications:
     name: vault
-    namespace: vault
-    project: hub
-    path: common/hashicorp-vault
-  golang-external-secrets:
-    name: golang-external-secrets
-    namespace: golang-external-secrets
-    project: hub
-    path: common/golang-external-secrets
+      namespace: vault
+      project: hub
+      path: common/hashicorp-vault
+    
+    golang-external-secrets:
+      name: golang-external-secrets
+      namespace: golang-external-secrets
+      project: hub
+      path: common/golang-external-secrets
