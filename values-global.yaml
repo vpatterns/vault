@@ -1,6 +1,6 @@
 ---
 global:
-  pattern: blank
+  pattern: vault
   secretStore:
     backend: none
 
