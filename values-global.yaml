@@ -1,8 +1,8 @@
 ---
 global:
   pattern: vault
-  secretStore:
-    backend: vault
+  #secretStore:
+    #backend: vault
 
   options:
     useCSV: true
